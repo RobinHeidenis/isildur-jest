@@ -1,10 +1,10 @@
 {
-  "name": "isildur-jest",
+  "name": "@isildur-testing/jest",
   "version": "0.0.2",
   "description": "",
   "scripts": {
     "test": "jest",
-    "build": "tsup-node src/index.ts --dts --format esm,cjs"
+    "build": "rimraf dist && tsup-node src/index.ts --dts --format esm,cjs"
   },
   "keywords": [],
   "author": "",
@@ -24,11 +24,10 @@
     "eslint": "^8.39.0",
     "jest": "^29.5.0",
     "prettier": "^2.8.8",
+    "rimraf": "^5.0.0",
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",
     "tsup": "^6.7.0",
     "typescript": "^5.0.4"
-  },
-  "dependencies": {
   }
 }
