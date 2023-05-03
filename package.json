@@ -4,14 +4,15 @@
   "description": "",
   "scripts": {
     "test": "jest",
-    "build": "rimraf dist && tsup-node src/index.ts --dts --format esm,cjs"
+    "build": "rimraf dist && tsup-node src/index.ts --dts --format cjs,esm",
+    "publish-package": "pnpm run build && pnpm changeset version && pnpm publish --access public"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
-  "module": "dist/index.esm.js",
-  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "main": "dist/index.cjs",
   "typings": "dist/index.d.ts",
   "files": [
     "dist/*"
@@ -31,6 +32,7 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@changesets/cli": "^2.26.1"
+    "@changesets/cli": "^2.26.1",
+    "@isildur-testing/api": "^0.0.2"
   }
 }

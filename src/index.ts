@@ -1,7 +1,5 @@
-import {add} from './add'
-import {sub} from './sub'
+import { JestRunner } from "~/runner";
 
-export {
-    add,
-    sub,
-}
+export { JestRunner };
+
+export default JestRunner;
