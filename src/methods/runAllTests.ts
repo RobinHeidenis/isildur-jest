@@ -7,6 +7,7 @@ export const runAllTests = async (): Promise<TestSuite[]> => {
     projects: [process.cwd()],
     silent: true,
     color: false,
+    showConfig: true,
   };
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -25,8 +26,7 @@ export const runAllTests = async (): Promise<TestSuite[]> => {
       duration: suite.perfStats.runtime ?? 0,
       numFailing: suite.numFailingTests,
       numPassing: suite.numPassingTests,
-      numSkipped: suite.numPendingTests,
-      numTodo: suite.numTodoTests,
+      numSkipped: suite.numPendingTests + suite.numTodoTests,
       tests: suite.testResults.map((testResult) => {
         if (testResult.status === "passed") {
           return {
