@@ -1,5 +1,11 @@
 # @isildur-testing/jest
 
+## 0.1.2
+
+### Patch Changes
+
+- 02b25b2: Fixed showConfig option that exits the jest process immediately and doesn't run any tests
+
 ## 0.1.1
 
 ### Patch Changes
