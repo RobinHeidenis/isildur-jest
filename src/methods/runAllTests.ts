@@ -7,7 +7,6 @@ export const runAllTests = async (): Promise<TestSuite[]> => {
     projects: [process.cwd()],
     silent: true,
     color: false,
-    showConfig: true,
   };
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
