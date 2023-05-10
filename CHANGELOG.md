@@ -1,5 +1,15 @@
 # @isildur-testing/jest
 
+## 0.2.0
+
+### Minor Changes
+
+- a427d8b: Implemented discovering all tests in a project using Jest
+
+### Patch Changes
+
+- d431a12: Reduced time to discover all tests in a big project (231 tests) by ~90%
+
 ## 0.1.2
 
 ### Patch Changes
