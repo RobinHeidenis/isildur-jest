@@ -26,6 +26,7 @@ export const runAllTests = async (): Promise<TestSuite[]> => {
       numFailing: suite.numFailingTests,
       numPassing: suite.numPassingTests,
       numSkipped: suite.numPendingTests + suite.numTodoTests,
+      suites: [],
       tests: suite.testResults.map((testResult) => {
         if (testResult.status === "passed") {
           return {
