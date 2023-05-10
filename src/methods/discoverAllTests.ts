@@ -7,6 +7,7 @@ export const discoverAllTests = async (): Promise<BaseTestSuite[]> => {
     projects: [process.cwd()],
     silent: true,
     color: false,
+    testNamePattern: "CrazyTestNameThatWillNeverMatchAnything",
   };
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
