@@ -1,5 +1,6 @@
 import { BaseTestSuite } from "@isildur-testing/api";
 import jest from "jest";
+import { buildTestTree } from "~/helpers/transformSuite";
 const { runCLI } = jest;
 
 export const discoverAllTests = async (): Promise<BaseTestSuite[]> => {
@@ -14,23 +15,5 @@ export const discoverAllTests = async (): Promise<BaseTestSuite[]> => {
   //@ts-expect-error
   const result = await runCLI(options, options.projects);
 
-  return result.results.testResults.map((suite) => {
-    const file = suite.testFilePath;
-
-    return {
-      file,
-      name:
-        suite.displayName?.name ??
-        suite.testResults[0]?.ancestorTitles[0] ??
-        "unknown",
-      suites: [],
-      tests: suite.testResults.map((testResult) => {
-        return {
-          file,
-          name: testResult.title,
-          duration: -1,
-        };
-      }),
-    };
-  });
+  return result.results.testResults.map(buildTestTree);
 };
