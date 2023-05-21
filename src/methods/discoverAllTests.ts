@@ -1,6 +1,6 @@
 import { BaseTestSuite } from "@isildur-testing/api";
 import jest from "jest";
-import { buildTestTree } from "~/helpers/transformSuite";
+import { parseDiscoveredSuite } from "~/helpers/parseSuite";
 const { runCLI } = jest;
 
 export const discoverAllTests = async (): Promise<BaseTestSuite[]> => {
@@ -15,5 +15,7 @@ export const discoverAllTests = async (): Promise<BaseTestSuite[]> => {
   //@ts-expect-error
   const result = await runCLI(options, options.projects);
 
-  return result.results.testResults.map(buildTestTree);
+  return result.results.testResults.flatMap((suite) =>
+    parseDiscoveredSuite(suite)
+  );
 };
