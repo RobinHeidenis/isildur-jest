@@ -16,7 +16,7 @@ interface SuiteNode {
   tests: TestNode[];
 }
 
-function getLabel(testPath: string) {
+export const getLabel = (testPath: string) => {
   const projectRoot = path.normalize(process.cwd());
   const suitePath = path.normalize(testPath);
   const suiteFile = suitePath.charAt(0).toLowerCase() + suitePath.slice(1);
@@ -27,7 +27,7 @@ function getLabel(testPath: string) {
   return label[0] === path.sep ? label.slice(path.sep.length) : label;
 }
 
-const findOrCreateDiscoveredSuite = (
+export const findOrCreateDiscoveredSuite = (
   parentNode: SuiteNode,
   suitePath: string[]
 ): SuiteNode => {
@@ -51,7 +51,7 @@ const findOrCreateDiscoveredSuite = (
   return findOrCreateDiscoveredSuite(suite, suitePath);
 };
 
-const findOrCreateRanSuite = (
+export const findOrCreateRanSuite = (
   parentNode: TestSuite,
   suitePath: string[]
 ): TestSuite => {
@@ -80,7 +80,7 @@ const findOrCreateRanSuite = (
   return findOrCreateRanSuite(suite, suitePath);
 };
 
-const buildTree = (
+export const buildTree = (
   node: SuiteNode,
   test: TestResults["testResults"][number]
 ) => {
@@ -95,7 +95,7 @@ const buildTree = (
   suite.tests.push(testNode);
 };
 
-const buildRanTree = (
+export const buildRanTree = (
   node: TestSuite,
   test: TestResults["testResults"][number]
 ) => {
@@ -110,7 +110,7 @@ const buildRanTree = (
       status: "pass",
       duration: test.duration ?? 0,
     } as const;
-  } else if (test.status === "pending" || test.status === "todo") {
+  } else if (test.status === "pending" || test.status === "todo" || test.status === "disabled" || test.status === "skipped") {
     testNode = {
       file: node.file,
       name: test.title,
@@ -173,7 +173,7 @@ export const transformRanSuiteFileMap = (
   });
 };
 
-const updateSuiteStatistics = (suite: TestSuite) => {
+export const updateSuiteStatistics = (suite: TestSuite) => {
   suite.suites.forEach((childSuite) => {
     updateSuiteStatistics(childSuite);
     suite.duration += childSuite.duration;
