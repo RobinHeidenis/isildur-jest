@@ -1,5 +1,15 @@
 # @isildur-testing/jest
 
+## 0.3.0
+
+### Minor Changes
+
+- 9fd3d83: Fixed parsing and transforming test results. This was going wrong before, but will now produce a uniform result no matter if you're running or disovering tests
+
+### Patch Changes
+
+- 6f379e5: Bump @isildur-testing/api to version 0.2.1
+
 ## 0.2.0
 
 ### Minor Changes
