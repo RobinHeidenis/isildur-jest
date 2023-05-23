@@ -14,7 +14,7 @@ export const runAllTests = async (): Promise<TestSuite[]> => {
   //@ts-expect-error
   const result = await runCLI(options, options.projects);
 
-  return result.results.testResults.flatMap((suite) =>
-    parseRanSuite(suite)
-  );
+  console.dir(result, { depth: null });
+
+  return result.results.testResults.flatMap((suite) => parseRanSuite(suite));
 };
