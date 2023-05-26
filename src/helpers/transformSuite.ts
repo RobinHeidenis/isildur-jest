@@ -67,9 +67,6 @@ export const findOrCreateRanSuite = (
       file: parentNode.file,
       name: suiteName ?? "unknown",
       duration: 0,
-      numFailing: 0,
-      numPassing: 0,
-      numSkipped: 0,
       suites: [],
       tests: [],
     };
@@ -161,9 +158,6 @@ export const transformRanSuiteFileMap = (
       file,
       name: getLabel(file),
       duration: 0,
-      numFailing: 0,
-      numPassing: 0,
-      numSkipped: 0,
       suites: [],
       tests: [],
     };
@@ -182,20 +176,9 @@ export const updateSuiteStatistics = (suite: TestSuite) => {
   suite.suites.forEach((childSuite) => {
     updateSuiteStatistics(childSuite);
     suite.duration += childSuite.duration;
-    suite.numFailing += childSuite.numFailing;
-    suite.numPassing += childSuite.numPassing;
-    suite.numSkipped += childSuite.numSkipped;
   });
 
   suite.tests.forEach((test) => {
     suite.duration += test.duration;
-
-    if (test.status === "passed") {
-      suite.numPassing++;
-    } else if (test.status === "failed") {
-      suite.numFailing++;
-    } else if (test.status === "skipped") {
-      suite.numSkipped++;
-    }
   });
 };
