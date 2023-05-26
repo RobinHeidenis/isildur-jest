@@ -12,7 +12,6 @@ export const discoverAllTests = async (
     {
       ...jestOptions,
       testNamePattern: "crazyTestNamePatternThatWillNeverMatchAnything", // This is the only way to ensure no tests get executed, but we still get the discovered tests
-      debug: true,
     },
     jestOptions.projects ?? []
   );
