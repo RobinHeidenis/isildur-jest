@@ -1,11 +1,11 @@
-import { TestRunnerOptions, TestSuite } from "@isildur-testing/api";
+import { PartialTestRunnerOptions, TestSuite } from "@isildur-testing/api";
 import jest from "jest";
 import { parseRanSuite } from "~/helpers/parseSuite.js";
 import { WEIRD_JEST_DEFAULT_CONFIG } from "~/helpers/weirdJestDefaultConfig.js";
 const { runCLI } = jest;
 
 export const runAllTests = async (
-  options?: TestRunnerOptions
+  options?: PartialTestRunnerOptions
 ): Promise<TestSuite[]> => {
   const mergedOptions = {
     ...WEIRD_JEST_DEFAULT_CONFIG,
