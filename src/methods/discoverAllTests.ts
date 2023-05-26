@@ -1,19 +1,20 @@
-import { BaseTestSuite } from "@isildur-testing/api";
+import { BaseTestSuite, TestRunnerOptions } from "@isildur-testing/api";
 import jest from "jest";
-import { parseDiscoveredSuite } from "~/helpers/parseSuite";
+import { parseDiscoveredSuite } from "~/helpers/parseSuite.js";
+import { WEIRD_JEST_DEFAULT_CONFIG } from "~/helpers/weirdJestDefaultConfig.js";
 const { runCLI } = jest;
 
-export const discoverAllTests = async (): Promise<BaseTestSuite[]> => {
-  const options = {
+export const discoverAllTests = async (
+  options?: TestRunnerOptions
+): Promise<BaseTestSuite[]> => {
+  const mergedOptions = {
+    ...WEIRD_JEST_DEFAULT_CONFIG,
     projects: [process.cwd()],
-    silent: true,
-    color: false,
+    config: options?.config,
     testNamePattern: "CrazyTestNameThatWillNeverMatchAnything",
-  };
+  } satisfies Parameters<typeof runCLI>[0];
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-expect-error
-  const result = await runCLI(options, options.projects);
+  const result = await runCLI(mergedOptions, mergedOptions.projects ?? []);
 
   return result.results.testResults.flatMap((suite) =>
     parseDiscoveredSuite(suite)

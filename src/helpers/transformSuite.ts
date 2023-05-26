@@ -1,6 +1,6 @@
 import { BaseTestSuite, TestSuite } from "@isildur-testing/api";
 import path from "node:path";
-import { TestResults } from "~/helpers/parseSuite";
+import { TestResults } from "~/helpers/parseSuite.js";
 
 interface TestNode {
   name: string;
@@ -25,7 +25,7 @@ export const getLabel = (testPath: string) => {
     ? suiteFile.split(projectRoot)[1] ?? suiteFile
     : suiteFile;
   return label[0] === path.sep ? label.slice(path.sep.length) : label;
-}
+};
 
 export const findOrCreateDiscoveredSuite = (
   parentNode: SuiteNode,
@@ -107,10 +107,15 @@ export const buildRanTree = (
     testNode = {
       file: node.file,
       name: test.title,
-      status: "pass",
+      status: "passed",
       duration: test.duration ?? 0,
     } as const;
-  } else if (test.status === "pending" || test.status === "todo" || test.status === "disabled" || test.status === "skipped") {
+  } else if (
+    test.status === "pending" ||
+    test.status === "todo" ||
+    test.status === "disabled" ||
+    test.status === "skipped"
+  ) {
     testNode = {
       file: node.file,
       name: test.title,
@@ -121,7 +126,7 @@ export const buildRanTree = (
     testNode = {
       file: node.file,
       name: test.title,
-      status: "fail",
+      status: "failed",
       duration: test.duration ?? 0,
       error: test.failureMessages.join("\n"),
     } as const;
@@ -185,9 +190,9 @@ export const updateSuiteStatistics = (suite: TestSuite) => {
   suite.tests.forEach((test) => {
     suite.duration += test.duration;
 
-    if (test.status === "pass") {
+    if (test.status === "passed") {
       suite.numPassing++;
-    } else if (test.status === "fail") {
+    } else if (test.status === "failed") {
       suite.numFailing++;
     } else if (test.status === "skipped") {
       suite.numSkipped++;

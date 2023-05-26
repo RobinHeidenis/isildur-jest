@@ -3,7 +3,7 @@ import { runCLI } from "jest";
 import {
   transformDiscoveredSuiteFileMap,
   transformRanSuiteFileMap,
-} from "~/helpers/transformSuite";
+} from "~/helpers/transformSuite.js";
 
 export type TestResults = Awaited<
   ReturnType<typeof runCLI>
