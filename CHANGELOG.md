@@ -1,5 +1,15 @@
 # @isildur-testing/jest
 
+## 0.4.0
+
+### Minor Changes
+
+- bfe9fe0: Implemented setting a config file location, setting a standard set of options, and setting custom Jest options
+
+### Patch Changes
+
+- c5b1cdf: Removed numPassing, numFailing, and numSkipped statistics from suites. Removed duration for discovered tests as it is not used
+
 ## 0.3.0
 
 ### Minor Changes
