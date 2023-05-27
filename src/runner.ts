@@ -1,16 +1,17 @@
 import {
   BaseTestSuite,
   IsildurTestRunner,
-  TestSuite,
+  PartialTestRunnerOptions,
+  TestSuite
 } from "@isildur-testing/api";
-import { methods } from "./methods";
+import { methods } from "./methods/index.js";
 
 export class JestRunner implements IsildurTestRunner {
-  async runAllTests(): Promise<TestSuite[]> {
-    return methods.runAllTests();
+  async run(options?: PartialTestRunnerOptions): Promise<TestSuite[]> {
+    return methods.runAllTests(options);
   }
 
-  async discoverAllTests(): Promise<BaseTestSuite[]> {
-    return methods.discoverAllTests();
+  async discover(options?: PartialTestRunnerOptions): Promise<BaseTestSuite[]> {
+    return methods.discoverAllTests(options);
   }
 }

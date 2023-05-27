@@ -1,20 +1,14 @@
-import { TestSuite } from "@isildur-testing/api";
+import { PartialTestRunnerOptions, TestSuite } from "@isildur-testing/api";
 import jest from "jest";
-import { parseRanSuite } from "~/helpers/parseSuite";
+import { getJestOptions } from "~/helpers/getJestOptions.js";
+import { parseRanSuite } from "~/helpers/parseSuite.js";
 const { runCLI } = jest;
 
-export const runAllTests = async (): Promise<TestSuite[]> => {
-  const options = {
-    projects: [process.cwd()],
-    silent: true,
-    color: false,
-  };
-
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-expect-error
-  const result = await runCLI(options, options.projects);
-
-  console.dir(result, { depth: null });
+export const runAllTests = async (
+  options?: PartialTestRunnerOptions
+): Promise<TestSuite[]> => {
+  const jestOptions = getJestOptions(options);
+  const result = await runCLI(jestOptions, jestOptions.projects ?? []);
 
   return result.results.testResults.flatMap((suite) => parseRanSuite(suite));
 };

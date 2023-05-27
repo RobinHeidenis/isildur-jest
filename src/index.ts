@@ -1,4 +1,4 @@
-import { JestRunner } from "~/runner";
+import { JestRunner } from "~/runner.js";
 
 export { JestRunner };
 
