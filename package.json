@@ -1,6 +1,6 @@
 {
   "name": "@isildur-testing/jest",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "",
   "scripts": {
     "test": "jest",
@@ -34,6 +34,6 @@
   },
   "dependencies": {
     "@changesets/cli": "^2.26.1",
-    "@isildur-testing/api": "^0.2.1"
+    "@isildur-testing/api": "^0.3.0"
   }
 }
