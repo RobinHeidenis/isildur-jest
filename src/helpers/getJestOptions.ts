@@ -15,5 +15,6 @@ export const getJestOptions = (
     ...(options?.maxWorkers && { maxWorkers: options.maxWorkers }),
     ...(options?.testNameFilter && { testNamePattern: options.testNameFilter }),
     ...(options?.timeout && { testTimeout: options.timeout }),
+    ...options?.runnerOptions,
   } satisfies Parameters<typeof runCLI>[0];
 };
