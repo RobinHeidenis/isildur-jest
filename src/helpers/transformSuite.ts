@@ -5,14 +5,14 @@ import { TestResults } from "~/helpers/parseSuite";
 export const getLabel = (testPath: string) => {
   const projectRootDir = path.normalize(process.cwd());
   const projectRoot =
-    projectRootDir.charAt(0).toLowerCase() + projectRootDir.slice(1);
+    projectRootDir.charAt(0).toLowerCase() + projectRootDir.slice(1); // Lowercase drive letters so it can be compared properly
   const suitePath = path.normalize(testPath);
-  const suiteFile = suitePath.charAt(0).toLowerCase() + suitePath.slice(1);
+  const suiteFile = suitePath.charAt(0).toLowerCase() + suitePath.slice(1); // Lowercase drive letters so it can be compared properly
 
   const label = suiteFile.startsWith(projectRoot)
     ? suiteFile.split(projectRoot)[1] ?? suiteFile
     : suiteFile;
-  return label[0] === path.sep ? label.slice(path.sep.length) : label;
+  return label[0] === path.sep ? label.slice(path.sep.length) : label; // Return only the test name, including any directories from the main
 };
 
 export const findOrCreateDiscoveredSuite = (
@@ -87,12 +87,16 @@ export const buildRanTree = (
   const suite = findOrCreateRanSuite(node, suitePath);
   let testNode;
 
+  const base = {
+    file: node.file,
+    name: test.title,
+    duration: test.duration ?? 0,
+  };
+
   if (test.status === "passed") {
     testNode = {
-      file: node.file,
-      name: test.title,
+      ...base,
       status: "passed",
-      duration: test.duration ?? 0,
     } as const;
   } else if (
     test.status === "pending" ||
@@ -101,17 +105,13 @@ export const buildRanTree = (
     test.status === "skipped"
   ) {
     testNode = {
-      file: node.file,
-      name: test.title,
+      ...base,
       status: "skipped",
-      duration: test.duration ?? 0,
     } as const;
   } else {
     testNode = {
-      file: node.file,
-      name: test.title,
+      ...base,
       status: "failed",
-      duration: test.duration ?? 0,
       error: test.failureMessages.join("\n"),
     } as const;
   }

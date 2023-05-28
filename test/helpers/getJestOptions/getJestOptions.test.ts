@@ -1,40 +1,36 @@
 import { getJestOptions } from "~/helpers/getJestOptions";
 
+const defaultJestOptions = {
+  projects: [process.cwd()],
+  _: [],
+  $0: "",
+};
+
 describe("getJestOptions", () => {
   it("Should return the default options when no options are given", () => {
     const options = getJestOptions();
-    expect(options).toEqual({
-      projects: [process.cwd()],
-      _: [],
-      $0: "",
-    });
+    expect(options).toEqual(defaultJestOptions);
   });
 
   it("Should return the default options plus config location", () => {
     const options = getJestOptions({ config: "jest.config.js" });
     expect(options).toEqual({
-      projects: [process.cwd()],
+      ...defaultJestOptions,
       config: "jest.config.js",
-      _: [],
-      $0: "",
     });
   });
 
   it("Should return the default options plus bail", () => {
     const optionsWithBailEnabled = getJestOptions({ bail: true });
     expect(optionsWithBailEnabled).toEqual({
-      projects: [process.cwd()],
+      ...defaultJestOptions,
       bail: true,
-      _: [],
-      $0: "",
     });
 
     const optionsWithBailDisabled = getJestOptions({ bail: false });
     expect(optionsWithBailDisabled).toEqual({
-      projects: [process.cwd()],
+      ...defaultJestOptions,
       bail: false,
-      _: [],
-      $0: "",
     });
   });
 
@@ -43,63 +39,47 @@ describe("getJestOptions", () => {
       allowNoTests: true,
     });
     expect(optionsWithAllowNoTestsEnabled).toEqual({
-      projects: [process.cwd()],
+      ...defaultJestOptions,
       passWithNoTests: true,
-      _: [],
-      $0: "",
     });
 
     const optionsWithAllowNoTestsDisabled = getJestOptions({
       allowNoTests: false,
     });
     expect(optionsWithAllowNoTestsDisabled).toEqual({
-      projects: [process.cwd()],
+      ...defaultJestOptions,
       passWithNoTests: false,
-      _: [],
-      $0: "",
     });
   });
 
   it("Should return the default options plus diff", () => {
     const optionsWithDiffEnabled = getJestOptions({ diff: true });
     expect(optionsWithDiffEnabled).toEqual({
-      projects: [process.cwd()],
+      ...defaultJestOptions,
       expand: true,
-      _: [],
-      $0: "",
     });
 
     const optionsWithDiffDisabled = getJestOptions({ diff: false });
     expect(optionsWithDiffDisabled).toEqual({
-      projects: [process.cwd()],
+      ...defaultJestOptions,
       expand: false,
-      _: [],
-      $0: "",
     });
   });
 
   it("Should return the default options plus maxWorkers", () => {
     const optionsWithMaxWorkers = getJestOptions({ maxWorkers: 4 });
     expect(optionsWithMaxWorkers).toEqual({
-      projects: [process.cwd()],
+      ...defaultJestOptions,
       maxWorkers: 4,
-      _: [],
-      $0: "",
     });
 
     const optionsWithoutMaxWorkers = getJestOptions({ maxWorkers: undefined });
-    expect(optionsWithoutMaxWorkers).toEqual({
-      projects: [process.cwd()],
-      _: [],
-      $0: "",
-    });
+    expect(optionsWithoutMaxWorkers).toEqual(defaultJestOptions);
 
     const optionsWithMaxWorkersZero = getJestOptions({ maxWorkers: 0 });
     expect(optionsWithMaxWorkersZero).toEqual({
-      projects: [process.cwd()],
+      ...defaultJestOptions,
       maxWorkers: 0,
-      _: [],
-      $0: "",
     });
   });
 
@@ -108,39 +88,29 @@ describe("getJestOptions", () => {
       testNameFilter: "test",
     });
     expect(optionsWithTestNameFilter).toEqual({
-      projects: [process.cwd()],
+      ...defaultJestOptions,
       testNamePattern: "test",
-      _: [],
-      $0: "",
     });
 
     const optionsWithoutTestNameFilter = getJestOptions({
       testNameFilter: undefined,
     });
-    expect(optionsWithoutTestNameFilter).toEqual({
-      projects: [process.cwd()],
-      _: [],
-      $0: "",
-    });
+    expect(optionsWithoutTestNameFilter).toEqual(defaultJestOptions,);
 
     const optionsWithTestNameFilterEmpty = getJestOptions({
       testNameFilter: "",
     });
     expect(optionsWithTestNameFilterEmpty).toEqual({
-      projects: [process.cwd()],
+      ...defaultJestOptions,
       testNamePattern: "",
-      _: [],
-      $0: "",
     });
   });
 
   it("Should return the default options plus timeout", () => {
     const optionsWithTimeout = getJestOptions({ timeout: 1000 });
     expect(optionsWithTimeout).toEqual({
-      projects: [process.cwd()],
+      ...defaultJestOptions,
       testTimeout: 1000,
-      _: [],
-      $0: "",
     });
   });
 
@@ -149,9 +119,7 @@ describe("getJestOptions", () => {
       runnerOptions: { foo: "bar" },
     });
     expect(optionsWithRunnerOptions).toEqual({
-      projects: [process.cwd()],
-      _: [],
-      $0: "",
+      ...defaultJestOptions,
       foo: "bar",
     });
   });

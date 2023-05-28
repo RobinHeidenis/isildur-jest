@@ -25,5 +25,5 @@ export const discoverAllTests = async (
         return 1;
       }
       return 0;
-    });
+    }); // ensure the suites are sorted to increase resiliancy in tests
 };

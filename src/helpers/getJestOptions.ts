@@ -2,12 +2,12 @@ import { PartialTestRunnerOptions } from "@isildur-testing/api";
 import { runCLI } from "jest";
 import { WEIRD_JEST_DEFAULT_CONFIG } from "~/helpers/weirdJestDefaultConfig";
 
-function has<K extends keyof PartialTestRunnerOptions>(
+const has = <K extends keyof PartialTestRunnerOptions>(
   obj: PartialTestRunnerOptions | undefined,
   prop: K
-): obj is PartialTestRunnerOptions & Record<K, unknown> {
+): obj is PartialTestRunnerOptions & Record<K, unknown> => {
   return obj !== undefined && prop in obj;
-}
+};
 
 export const getJestOptions = (
   options?: PartialTestRunnerOptions
@@ -25,7 +25,7 @@ export const getJestOptions = (
     ...(has(options, "testNameFilter") && {
       testNamePattern: options.testNameFilter,
     }),
-    ...(has(options, "timeout") && { testTimeout: options.timeout }),
+    ...(has(options, "timeout") && { testTimeout: options.timeout }), // Above maps the options to the Jest CLI options. The has function is used to allow falsy values to be passed as well.
     ...options?.runnerOptions,
   } satisfies Parameters<typeof runCLI>[0];
 };
