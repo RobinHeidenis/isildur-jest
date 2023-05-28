@@ -1,7 +1,7 @@
 import { PartialTestRunnerOptions, TestSuite } from "@isildur-testing/api";
 import jest from "jest";
-import { getJestOptions } from "~/helpers/getJestOptions.js";
-import { parseRanSuite } from "~/helpers/parseSuite.js";
+import { getJestOptions } from "~/helpers/getJestOptions";
+import { parseRanSuite } from "~/helpers/parseSuite";
 const { runCLI } = jest;
 
 export const runAllTests = async (

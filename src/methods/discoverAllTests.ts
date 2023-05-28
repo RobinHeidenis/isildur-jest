@@ -1,7 +1,7 @@
 import { BaseTestSuite, PartialTestRunnerOptions } from "@isildur-testing/api";
 import jest from "jest";
-import { getJestOptions } from "~/helpers/getJestOptions.js";
-import { parseDiscoveredSuite } from "~/helpers/parseSuite.js";
+import { getJestOptions } from "~/helpers/getJestOptions";
+import { parseDiscoveredSuite } from "~/helpers/parseSuite";
 const { runCLI } = jest;
 
 export const discoverAllTests = async (
@@ -16,7 +16,14 @@ export const discoverAllTests = async (
     jestOptions.projects ?? []
   );
 
-  return result.results.testResults.flatMap((suite) =>
-    parseDiscoveredSuite(suite)
-  );
+  return result.results.testResults
+    .flatMap((suite) => parseDiscoveredSuite(suite))
+    .sort((a, b) => {
+      if (a.file < b.file) {
+        return -1;
+      } else if (a.file > b.file) {
+        return 1;
+      }
+      return 0;
+    });
 };

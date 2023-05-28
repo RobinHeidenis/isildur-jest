@@ -1,3 +1,4 @@
+import { BaseTestSuite } from "@isildur-testing/api";
 import { findOrCreateDiscoveredSuite } from "~/helpers/transformSuite";
 
 describe("findOrCreateDiscoveredSuite", () => {
@@ -7,7 +8,7 @@ describe("findOrCreateDiscoveredSuite", () => {
       name: "transformSuite.test.ts",
       suites: [],
       tests: [],
-    };
+    } satisfies BaseTestSuite;
 
     const suite = findOrCreateDiscoveredSuite(parentNode, []);
 
@@ -20,7 +21,7 @@ describe("findOrCreateDiscoveredSuite", () => {
       name: "transformSuite.test.ts",
       suites: [],
       tests: [],
-    };
+    } satisfies BaseTestSuite;
 
     const suite = findOrCreateDiscoveredSuite(parentNode, ["helpers"]);
 
@@ -29,7 +30,7 @@ describe("findOrCreateDiscoveredSuite", () => {
       name: "helpers",
       suites: [],
       tests: [],
-    });
+    } satisfies BaseTestSuite);
   });
 
   it("should return the existing node when the requested path is on the parent node", () => {
@@ -45,7 +46,7 @@ describe("findOrCreateDiscoveredSuite", () => {
         },
       ],
       tests: [],
-    };
+    } satisfies BaseTestSuite;
 
     const suite = findOrCreateDiscoveredSuite(parentNode, ["helpers"]);
 
@@ -54,7 +55,7 @@ describe("findOrCreateDiscoveredSuite", () => {
       name: "helpers",
       suites: [],
       tests: [],
-    });
+    } satisfies BaseTestSuite);
   });
 
   it("should return the existing node when the requested path is on a deeper suite", () => {
@@ -77,7 +78,7 @@ describe("findOrCreateDiscoveredSuite", () => {
         },
       ],
       tests: [],
-    };
+    } satisfies BaseTestSuite;
 
     const suite = findOrCreateDiscoveredSuite(parentNode, [
       "helpers",
@@ -89,7 +90,7 @@ describe("findOrCreateDiscoveredSuite", () => {
       name: "testing helpers",
       suites: [],
       tests: [],
-    });
+    } satisfies BaseTestSuite);
   });
 
   it("should create a new node when the requested path is not on a deeper suite", () => {
@@ -112,7 +113,7 @@ describe("findOrCreateDiscoveredSuite", () => {
         },
       ],
       tests: [],
-    };
+    } satisfies BaseTestSuite;
 
     const suite = findOrCreateDiscoveredSuite(parentNode, [
       "helpers",
@@ -125,7 +126,7 @@ describe("findOrCreateDiscoveredSuite", () => {
       name: "new suite",
       suites: [],
       tests: [],
-    });
+    } satisfies BaseTestSuite);
 
     expect(parentNode).toEqual({
       file: "transformSuite.test.ts",
@@ -153,7 +154,7 @@ describe("findOrCreateDiscoveredSuite", () => {
         },
       ],
       tests: [],
-    });
+    } satisfies BaseTestSuite);
   });
 
   it("should create a bunch of new nodes when the requested deep path is not on the parent node", () => {
@@ -162,7 +163,7 @@ describe("findOrCreateDiscoveredSuite", () => {
       name: "transformSuite.test.ts",
       suites: [],
       tests: [],
-    };
+    } satisfies BaseTestSuite;
 
     const suite = findOrCreateDiscoveredSuite(parentNode, [
       "helpers",
@@ -175,7 +176,7 @@ describe("findOrCreateDiscoveredSuite", () => {
       name: "new suite",
       suites: [],
       tests: [],
-    });
+    } satisfies BaseTestSuite);
 
     expect(parentNode).toEqual({
       file: "transformSuite.test.ts",
@@ -203,6 +204,6 @@ describe("findOrCreateDiscoveredSuite", () => {
         },
       ],
       tests: [],
-    });
+    } satisfies BaseTestSuite);
   });
 });

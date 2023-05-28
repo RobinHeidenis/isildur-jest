@@ -1,23 +1,11 @@
-import { BaseTestSuite, TestSuite } from "@isildur-testing/api";
+import { BaseTestSuite, TestResult, TestSuite } from "@isildur-testing/api";
 import path from "node:path";
-import { TestResults } from "~/helpers/parseSuite.js";
-
-interface TestNode {
-  name: string;
-  status: string;
-  file: string;
-  duration: number;
-}
-
-interface SuiteNode {
-  file: string;
-  name: string;
-  suites: SuiteNode[];
-  tests: TestNode[];
-}
+import { TestResults } from "~/helpers/parseSuite";
 
 export const getLabel = (testPath: string) => {
-  const projectRoot = path.normalize(process.cwd());
+  const projectRootDir = path.normalize(process.cwd());
+  const projectRoot =
+    projectRootDir.charAt(0).toLowerCase() + projectRootDir.slice(1);
   const suitePath = path.normalize(testPath);
   const suiteFile = suitePath.charAt(0).toLowerCase() + suitePath.slice(1);
 
@@ -28,9 +16,9 @@ export const getLabel = (testPath: string) => {
 };
 
 export const findOrCreateDiscoveredSuite = (
-  parentNode: SuiteNode,
+  parentNode: BaseTestSuite,
   suitePath: string[]
-): SuiteNode => {
+): BaseTestSuite => {
   if (suitePath.length === 0) {
     return parentNode;
   }
@@ -78,14 +66,13 @@ export const findOrCreateRanSuite = (
 };
 
 export const buildTree = (
-  node: SuiteNode,
+  node: BaseTestSuite,
   test: TestResults["testResults"][number]
 ) => {
   const suitePath = test.ancestorTitles.slice();
   const suite = findOrCreateDiscoveredSuite(node, suitePath);
-  const testNode: TestNode = {
+  const testNode: Omit<TestResult, "status"> = {
     name: test.title,
-    status: test.status,
     file: node.file,
     duration: -1,
   };
