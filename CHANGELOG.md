@@ -1,5 +1,11 @@
 # @isildur-testing/jest
 
+## 0.4.1
+
+### Patch Changes
+
+- 2f7bc2d: Small changes in code quality, added tests
+
 ## 0.4.0
 
 ### Minor Changes
