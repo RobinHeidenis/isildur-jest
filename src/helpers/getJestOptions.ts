@@ -1,6 +1,13 @@
 import { PartialTestRunnerOptions } from "@isildur-testing/api";
 import { runCLI } from "jest";
-import { WEIRD_JEST_DEFAULT_CONFIG } from "~/helpers/weirdJestDefaultConfig.js";
+import { WEIRD_JEST_DEFAULT_CONFIG } from "~/helpers/weirdJestDefaultConfig";
+
+const has = <K extends keyof PartialTestRunnerOptions>(
+  obj: PartialTestRunnerOptions | undefined,
+  prop: K
+): obj is PartialTestRunnerOptions & Record<K, unknown> => {
+  return obj !== undefined && prop in obj;
+};
 
 export const getJestOptions = (
   options?: PartialTestRunnerOptions
@@ -8,13 +15,17 @@ export const getJestOptions = (
   return {
     ...WEIRD_JEST_DEFAULT_CONFIG,
     projects: [process.cwd()],
-    ...(options?.config && { config: options.config }),
-    ...(options?.bail && { bail: options.bail }),
-    ...(options?.allowNoTests && { passWithNoTests: options.allowNoTests }),
-    ...(options?.diff && { expand: options.diff }),
-    ...(options?.maxWorkers && { maxWorkers: options.maxWorkers }),
-    ...(options?.testNameFilter && { testNamePattern: options.testNameFilter }),
-    ...(options?.timeout && { testTimeout: options.timeout }),
+    ...(has(options, "config") && { config: options.config }),
+    ...(has(options, "bail") && { bail: options.bail }),
+    ...(has(options, "allowNoTests") && {
+      passWithNoTests: options.allowNoTests,
+    }),
+    ...(has(options, "diff") && { expand: options.diff }),
+    ...(has(options, "maxWorkers") && { maxWorkers: options.maxWorkers }),
+    ...(has(options, "testNameFilter") && {
+      testNamePattern: options.testNameFilter,
+    }),
+    ...(has(options, "timeout") && { testTimeout: options.timeout }), // Above maps the options to the Jest CLI options. The has function is used to allow falsy values to be passed as well.
     ...options?.runnerOptions,
   } satisfies Parameters<typeof runCLI>[0];
 };

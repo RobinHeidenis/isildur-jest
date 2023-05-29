@@ -1,3 +1,4 @@
+import { BaseTestSuite } from "@isildur-testing/api";
 import { buildTree } from "~/helpers/transformSuite";
 
 describe("buildTree", () => {
@@ -7,7 +8,7 @@ describe("buildTree", () => {
         name: "transformSuite.test.ts",
         suites: [],
         tests: [],
-      };
+      } satisfies BaseTestSuite;
   
       buildTree(suite, {
         ancestorTitles: ["helpers", "testing helpers"],
@@ -37,7 +38,6 @@ describe("buildTree", () => {
                     name: "should do something",
                     duration: -1,
                     file: "transformSuite.test.ts",
-                    status: "passed",
                   },
                 ],
               },
@@ -46,6 +46,6 @@ describe("buildTree", () => {
           },
         ],
         tests: [],
-      });
+      } satisfies BaseTestSuite);
     });
   });

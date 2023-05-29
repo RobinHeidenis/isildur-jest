@@ -1,36 +1,24 @@
-import { BaseTestSuite, TestSuite } from "@isildur-testing/api";
+import { BaseTestSuite, TestResult, TestSuite } from "@isildur-testing/api";
 import path from "node:path";
-import { TestResults } from "~/helpers/parseSuite.js";
-
-interface TestNode {
-  name: string;
-  status: string;
-  file: string;
-  duration: number;
-}
-
-interface SuiteNode {
-  file: string;
-  name: string;
-  suites: SuiteNode[];
-  tests: TestNode[];
-}
+import { TestResults } from "~/helpers/parseSuite";
 
 export const getLabel = (testPath: string) => {
-  const projectRoot = path.normalize(process.cwd());
+  const projectRootDir = path.normalize(process.cwd());
+  const projectRoot =
+    projectRootDir.charAt(0).toLowerCase() + projectRootDir.slice(1); // Lowercase drive letters so it can be compared properly
   const suitePath = path.normalize(testPath);
-  const suiteFile = suitePath.charAt(0).toLowerCase() + suitePath.slice(1);
+  const suiteFile = suitePath.charAt(0).toLowerCase() + suitePath.slice(1); // Lowercase drive letters so it can be compared properly
 
   const label = suiteFile.startsWith(projectRoot)
     ? suiteFile.split(projectRoot)[1] ?? suiteFile
     : suiteFile;
-  return label[0] === path.sep ? label.slice(path.sep.length) : label;
+  return label[0] === path.sep ? label.slice(path.sep.length) : label; // Return only the test name, including any directories from the main
 };
 
 export const findOrCreateDiscoveredSuite = (
-  parentNode: SuiteNode,
+  parentNode: BaseTestSuite,
   suitePath: string[]
-): SuiteNode => {
+): BaseTestSuite => {
   if (suitePath.length === 0) {
     return parentNode;
   }
@@ -78,14 +66,13 @@ export const findOrCreateRanSuite = (
 };
 
 export const buildTree = (
-  node: SuiteNode,
+  node: BaseTestSuite,
   test: TestResults["testResults"][number]
 ) => {
   const suitePath = test.ancestorTitles.slice();
   const suite = findOrCreateDiscoveredSuite(node, suitePath);
-  const testNode: TestNode = {
+  const testNode: Omit<TestResult, "status"> = {
     name: test.title,
-    status: test.status,
     file: node.file,
     duration: -1,
   };
@@ -100,12 +87,16 @@ export const buildRanTree = (
   const suite = findOrCreateRanSuite(node, suitePath);
   let testNode;
 
+  const base = {
+    file: node.file,
+    name: test.title,
+    duration: test.duration ?? 0,
+  };
+
   if (test.status === "passed") {
     testNode = {
-      file: node.file,
-      name: test.title,
+      ...base,
       status: "passed",
-      duration: test.duration ?? 0,
     } as const;
   } else if (
     test.status === "pending" ||
@@ -114,17 +105,13 @@ export const buildRanTree = (
     test.status === "skipped"
   ) {
     testNode = {
-      file: node.file,
-      name: test.title,
+      ...base,
       status: "skipped",
-      duration: test.duration ?? 0,
     } as const;
   } else {
     testNode = {
-      file: node.file,
-      name: test.title,
+      ...base,
       status: "failed",
-      duration: test.duration ?? 0,
       error: test.failureMessages.join("\n"),
     } as const;
   }
